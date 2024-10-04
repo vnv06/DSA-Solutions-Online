@@ -1,0 +1,40 @@
+import copy
+
+
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        if len(s2) < len(s1):
+            return False
+        flag = 0
+        s1Map = {}
+        s1Hash = 0
+        for char in s1:
+            s1Hash += ord(char)
+            if char in s1Map:
+                s1Map[char] += 1
+                continue
+            s1Map[char] = 1
+        s2Hash = 0
+        for i in range(len(s1)):
+            s2Hash += ord(s2[i])
+        if s2Hash == s1Hash:
+            checkMap = copy.copy(s1Map)
+            if self.checkMatch(checkMap, s2[:len(s1)]):
+                return True
+        for i in range(1, len(s2) - len(s1) + 1):
+            s2Hash -= ord(s2[i - 1])
+            s2Hash += ord(s2[i + len(s1) - 1])
+            if s2Hash == s1Hash:
+                 checkMap = copy.copy(s1Map)
+                 if self.checkMatch(checkMap, s2[i:i + len(s1)]):
+                    return True
+        return False
+
+    def checkMatch(self, Map: dict, s2: str) -> bool:
+        for char in s2:
+            if char not in Map:
+                return False
+            if Map[char] < 1:
+                return False
+            Map[char] -= 1
+        return True
