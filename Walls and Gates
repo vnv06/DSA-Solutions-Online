@@ -1,0 +1,28 @@
+import math
+class Solution:
+    def islandsAndTreasure(self, grid: List[List[int]]) -> None:
+        rowLength, colLength = len(grid), len(grid[0])
+        visited = set()
+        q = collections.deque()
+
+        for row in range(rowLength):
+            for col in range(colLength):
+                if grid[row][col] == 0:
+                    q.append([row, col])
+                    visited.add((row, col))
+        
+        path = 0
+        while q:
+            for i in range(len(q)):
+                r, c = q.popleft()
+                grid[r][c] = path
+                directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+                for dr, dc in directions:
+                    row, col = r + dr, c + dc
+                    if (row in range(rowLength) and
+                        col in range(colLength) and
+                        (row, col) not in visited and
+                        grid[row][col] != -1):
+                        visited.add((row, col))
+                        q.append([row, col])
+            path += 1
