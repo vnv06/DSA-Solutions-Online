@@ -1,0 +1,33 @@
+import math
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        sums = [0] * len(nums)
+        maxIndex = 0
+        maxNum = - 1001
+        res = 0
+        if len(nums) < 1:
+            return 0
+        if len(nums) < 2:
+            return nums[0]
+        if len(nums) < 3:
+            if nums[0] < 0 or nums[1] < 0:
+                return max(nums[0], nums[1])
+            return nums[0] + nums[1]
+        sums[len(nums) - 1] = nums[- 1]
+        for i in range(len(nums) - 2, - 1, - 1):
+            sums[i] = sums[i + 1] + nums[i]
+            if sums[i] > maxNum:
+                maxNum = sums[i]
+                maxIndex = i
+        if maxNum < sums[- 1]:
+            maxNum = sums[- 1]
+            maxIndex = len(nums) - 1
+        if maxNum < 0:
+            return nums[maxIndex]
+        i = maxIndex
+        while i < len(nums):
+            if sums[i] < 0:
+                return res
+            res += nums[i]
+            i += 1
+        return res
