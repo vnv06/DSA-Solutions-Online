@@ -1,0 +1,16 @@
+class Solution:
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        visited = {}
+        
+        def dfs(node):
+            if node in visited:
+                return visited[node]
+            neighbors = node.neighbors
+            val = node.val
+            newNode = Node(val)
+            visited[node] = newNode
+            for neighbor in neighbors:
+                newNode.neighbors.append(dfs(neighbor))
+            return newNode
+        
+        return dfs(node) if node else None
