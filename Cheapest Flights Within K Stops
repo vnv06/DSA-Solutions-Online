@@ -1,0 +1,22 @@
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        edges = collections.defaultdict(list)
+        for source, target, price in flights:
+            edges[source].append([target, price])
+        hops = -1
+        cost = 1001 * n
+        minHeap = [[0, 0, src]]
+        visited = set()
+        while minHeap:
+            curCost, stops, airport = heapq.heappop(minHeap)
+            if (airport, stops) in visited:
+                continue
+            visited.add((airport, stops))
+            for dest, price in edges[airport]:
+                if dest == dst:
+                    cost = min(cost, curCost + price)
+                if (dest, stops) not in visited and dest != dst and stops < k:
+                    heapq.heappush(minHeap, (curCost + price, stops + 1, dest))
+        if cost == 1001 * n:
+            return -1
+        return cost
