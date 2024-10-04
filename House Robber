@@ -1,0 +1,14 @@
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        profits = nums.copy()
+        numHouses = len(nums)
+        if numHouses == 1:
+            return nums[0]
+        if numHouses == 2:
+            return max(nums[0], nums[1])
+        profits[- 2] = max(profits[- 1], profits[- 2])
+        
+        for i in range(numHouses - 3, - 1, - 1):
+            profits[i] = max((profits[i] + profits[i + 2], profits[i + 1]))
+        
+        return profits[0]
