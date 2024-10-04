@@ -1,0 +1,32 @@
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        rowLength = len(board)
+        colLength = len(board[0])
+        def dfs(i: int, j: int, target: str, visited):
+            if not target:
+                return True
+            if len(target) < 1:
+                return True
+            if len(target) == 1:
+                if board[i][j] == target[0]:
+                    return True
+                return False
+            if board[i][j] != target[0]:
+                return False
+            visited.add((i, j))
+            directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+            for dr, dc in directions:
+                r, c = i + dr, j + dc
+                if (r in range(rowLength) and
+                    c in range(colLength) and
+                    (r, c) not in visited):
+                    if dfs(r, c, target[1:], visited) == True:
+                        return True
+            return False
+
+        for r in range(rowLength):
+            for c in range(colLength):
+                visited = set()
+                if dfs(r, c, word, visited):
+                    return True
+        return False
