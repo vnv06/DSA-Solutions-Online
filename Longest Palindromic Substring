@@ -1,0 +1,24 @@
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        memberMap = {}
+        curPal = s[0]
+        for i in range(len(s)):
+            if s[i] not in memberMap:
+                memberMap[s[i]] = [i]
+                continue
+            for idx in memberMap[s[i]]:
+                if self.isPalindrome(s[idx:i+1]):
+                    if (i + 1) - idx > len(curPal):
+                        curPal = s[idx:i+1]
+            memberMap[s[i]].append(i)
+        return curPal
+    
+    def isPalindrome(self, s: str) -> bool:
+        i = 0
+        j = len(s)-1
+        while(i<j):
+            if s[i] != s[j]:
+                return False
+            i += 1
+            j -= 1
+        return True
