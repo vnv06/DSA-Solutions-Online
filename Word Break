@@ -1,0 +1,12 @@
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        sol = [False] * (len(s) + 1)
+        sol[len(s)] = True
+        for i in range(len(s) - 1, -1, -1):
+            for word in wordDict:
+                if (i + len(word)) <= len(s):
+                    if word == s[i : i + len(word)]:
+                        sol[i] = sol[i + len(word)]
+                    if sol[i]:
+                        break
+        return sol[0]
