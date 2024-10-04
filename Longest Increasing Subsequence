@@ -1,0 +1,10 @@
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        lis = [0] * len(nums)
+        lis[len(nums) - 1] = 1
+        for startIndex in range(len(nums)-2, -1, -1):
+            lis[startIndex] = 1
+            for checkIndex in range(len(nums[startIndex + 1 : ])):
+                if nums[checkIndex + startIndex + 1] > nums[startIndex]:
+                    lis[startIndex] = max(lis[startIndex], 1 + lis[startIndex + checkIndex + 1])
+        return max(lis)
