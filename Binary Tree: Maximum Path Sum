@@ -1,0 +1,16 @@
+import math
+
+class Solution:
+    maxPath = -math.inf
+    def dfs(self, root: Optional[TreeNode]) -> int:
+        if root == None:
+            return 0
+        left = max(self.dfs(root.left), 0)
+        right = max(self.dfs(root.right), 0)
+        a = max(left, right) + root.val
+        self.maxPath = max(self.maxPath, left + right + root.val)
+        return a
+
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        self.dfs(root)
+        return self.maxPath
